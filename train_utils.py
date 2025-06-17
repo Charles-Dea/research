@@ -50,7 +50,7 @@ def create_learning_rate_scheduler(factors, config):
             elif name == 'decay_every':
                 ret *= (decay_factor ** (step // steps_per_decay))
             elif name == 'cosine_decay':
-                print(steps_per_cycle)
+                print('steps_per_cycle:',steps_per_cycle)
                 progress = np.maximum(0.0, (step - warmup_steps) / float(steps_per_cycle))
                 ret *= np.maximum(0.0, 0.5 * (1.0 + np.cos(np.pi * (progress % 1.0))))
             else:
