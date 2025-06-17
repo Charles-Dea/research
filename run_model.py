@@ -146,13 +146,7 @@ def train(model, config, use_deepspeed):
             model.train()
 
 
-def main():
-    parser = ArgumentParser()
-    parser.add_argument("--task", default="listops", choices=TASKS.keys(),
-                        help="choose an LRA dataset from available options")
-    parser.add_argument("--deepspeed", action="store_true",
-                        help="use deepspeed optimization for better performance")
-    args = parser.parse_args()
+def main(args):
     task_name = args.task
     if args.deepspeed:
         import deepspeed
@@ -163,4 +157,10 @@ def main():
     train(model, config, use_deepspeed=args.deepspeed)
 
 if __name__ == "__main__":
-    main()
+    parser = ArgumentParser()
+    parser.add_argument("--task", default="listops", choices=TASKS.keys(),
+                        help="choose an LRA dataset from available options")
+    parser.add_argument("--deepspeed", action="store_true",
+                        help="use deepspeed optimization for better performance")
+    args = parser.parse_args()
+    main(args)
