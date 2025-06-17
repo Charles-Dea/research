@@ -1,4 +1,3 @@
-print'run_model module loaded')
 import json
 from itertools import cycle
 import numpy as np
@@ -156,7 +155,6 @@ def main(args):
     config, model_config = task.config_getter()
     model = get_model(config, model_config)
     train(model, config, use_deepspeed=args.deepspeed)
-print(dir())
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("--task", default="listops", choices=TASKS.keys(),
