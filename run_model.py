@@ -65,6 +65,7 @@ def get_model(config, model_config):
 
 def train(model, config, use_deepspeed):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    print(device)
     lr = config.learning_rate
     wd = config.weight_decay
     batch_size = config.batch_size
