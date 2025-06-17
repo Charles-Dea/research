@@ -146,8 +146,7 @@ def train(model, config, use_deepspeed):
             model.train()
 
 
-# entry point
-if __name__ == "__main__":
+def main():
     parser = ArgumentParser()
     parser.add_argument("--task", default="listops", choices=TASKS.keys(),
                         help="choose an LRA dataset from available options")
@@ -162,3 +161,6 @@ if __name__ == "__main__":
     config, model_config = task.config_getter()
     model = get_model(config, model_config)
     train(model, config, use_deepspeed=args.deepspeed)
+
+if __name__ == "__main__":
+    main()
