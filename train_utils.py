@@ -26,12 +26,12 @@ def create_learning_rate_scheduler(factors, config):
   """
     factors = [n.strip() for n in factors.split('*')]
     base_learning_rate: float = config.learning_rate
-    warmup_steps: int = config.get('warmup_steps', 1000)
+    warmup_steps: int = config.get('warmup_steps', default=1000)
     print("I'm a fucking print statment")
     print(warmup_steps,flush=True)
-    decay_factor: float = config.get('decay_factor', 0.5)
-    steps_per_decay: int = config.get('steps_per_decay', 20000)
-    steps_per_cycle: int = config.get('steps_per_cycle', 100000)
+    decay_factor: float = config.get('decay_factor', default=0.5)
+    steps_per_decay: int = config.get('steps_per_decay', default=20000)
+    steps_per_cycle: int = config.get('steps_per_cycle', default=100000)
 
     def step_fn(step):
         """ Step to learning rate function """
