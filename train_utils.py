@@ -27,8 +27,6 @@ def create_learning_rate_scheduler(factors, config):
     factors = [n.strip() for n in factors.split('*')]
     base_learning_rate: float = config.learning_rate
     warmup_steps: int = config.get('warmup_steps', default=1000)
-    print("I'm a fucking print statment")
-    print(warmup_steps,flush=True)
     decay_factor: float = config.get('decay_factor', default=0.5)
     steps_per_decay: int = config.get('steps_per_decay', default=20000)
     steps_per_cycle: int = config.get('steps_per_cycle', default=100000)
@@ -40,7 +38,6 @@ def create_learning_rate_scheduler(factors, config):
             if name == 'constant':
                 ret *= base_learning_rate
             elif name == 'linear_warmup':
-                print(warmup_steps,flush=True)
                 ret *= np.minimum(1.0, step / warmup_steps)
             elif name == 'rsqrt_decay':
                 ret /= np.sqrt(np.maximum(step, warmup_steps))
@@ -50,7 +47,6 @@ def create_learning_rate_scheduler(factors, config):
             elif name == 'decay_every':
                 ret *= (decay_factor ** (step // steps_per_decay))
             elif name == 'cosine_decay':
-                print('steps_per_cycle:',steps_per_cycle)
                 progress = np.maximum(0.0, (step - warmup_steps) / float(steps_per_cycle))
                 ret *= np.maximum(0.0, 0.5 * (1.0 + np.cos(np.pi * (progress % 1.0))))
             else:

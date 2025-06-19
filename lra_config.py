@@ -59,9 +59,9 @@ def pixel_tokenizer(x, max_length):
 
 def make_gray_img_tokenizer(il=32):
     n=il*il
+    r=range(il)
     def _tokenizer(xi,max_length):
-        r=range(il)
-        return{'input_ids':torch.LongTensor([[xi.getpixel((x,y))for y in r]for x in r]),'attention_mask':torch.LongTensor(([1]*n)*([0]*(max_length-n)))}
+        return{'input_ids':torch.LongTensor([[xi.getpixel((x,y))for y in r]for x in r]),'attention_mask':torch.LongTensor([1]*n)}
     _tokenizer.vocab_size=n*255
     return _tokenizer
 
@@ -160,21 +160,21 @@ def get_cifar10_config():
 
 def get_pathfinder32_config():
     config=ml_collections.ConfigDict()
-    config.batch_size=64
+    config.batch_size=65536
     config.tokenizer=make_gray_img_tokenizer()
     tots=200
     trns=int(tots*.85)
     tsts=tots-trns
     config.eval_frequency=trns//config.batch_size
     config.total_eval_samples=tsts
-    eps=200
+    eps=2000
     config.total_train_samples=trns*eps
     config.weight_decay=0
     config.learning_rate=.0005
     config.warmup_steps=8000
     config.tied_weights=False
     config.max_length=1024
-    config.steps_per_cycle=trns//config.batch_size*eps
+    config.steps_per_cycle=max(trns//config.batch_size,1)*eps
     config.lr_scheduler=create_learning_rate_scheduler('constant * linear_warmup * cosine_decay',config)
     model_config=ml_collections.ConfigDict()
     model_config.max_position_embeddings=config.max_length

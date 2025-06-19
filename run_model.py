@@ -65,7 +65,6 @@ def get_model(config, model_config):
 
 def train(model, config, use_deepspeed):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    print('device:',device)
     lr = config.learning_rate
     wd = config.weight_decay
     batch_size = config.batch_size
@@ -144,6 +143,7 @@ def train(model, config, use_deepspeed):
                 eval_pbar.set_postfix_str(f"eval loss: {eval_running_loss/(j+1):.2f} "
                                           f"eval accuracy: {eval_running_acc/(j+1):.2f}")
             model.train()
+        print('re-entering loop')
 
 
 if __name__ == "__main__":

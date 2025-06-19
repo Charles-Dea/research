@@ -107,6 +107,6 @@ class Pathfinder32Dataset:
         self.tokenizer=config.tokenizer
         self.max_length=config.max_length
     def __getitem__(self,i):
-        return torch.LongTensor([self.lbls[i]]),torch.LongTensor(self.labels[i])
+        return self.tokenizer(self.data[i],self.max_length),torch.LongTensor([self.lbls[i]])
     def __len__(self):
         return len(self.data)
