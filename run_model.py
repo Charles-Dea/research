@@ -102,6 +102,7 @@ def train(model, config, use_deepspeed):
         if use_deepspeed:
             outputs = model_engine(**inputs)
             loss = F.cross_entropy(outputs, target)  # ✅ Updated
+            print('error fucking dodged')
             model_engine.backward(loss)
             model_engine.step()
         else:
@@ -135,6 +136,7 @@ def train(model, config, use_deepspeed):
                 if j == max_eval_steps:
                     break
                 inputs = dict_to_device(inputs, device)
+                print(inputs)
                 target = target.to(device)
                 outputs = model(**inputs)
                 loss = F.cross_entropy(outputs, target)  # ✅ Updated
@@ -143,7 +145,6 @@ def train(model, config, use_deepspeed):
                 eval_pbar.set_postfix_str(f"eval loss: {eval_running_loss/(j+1):.2f} "
                                           f"eval accuracy: {eval_running_acc/(j+1):.2f}")
             model.train()
-        print('re-entering loop')
 
 
 if __name__ == "__main__":
@@ -153,6 +154,7 @@ if __name__ == "__main__":
     parser.add_argument("--deepspeed", action="store_true",
                         help="use deepspeed optimization for better performance")
     args = parser.parse_args()
+    print(args.deepspeed)
     task_name = args.task
     if args.deepspeed:
         import deepspeed
