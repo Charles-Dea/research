@@ -59,9 +59,8 @@ def pixel_tokenizer(x, max_length):
 
 def make_gray_img_tokenizer(il=32):
     n=il*il
-    r=range(il)
     def _tokenizer(xi,max_length):
-        return{'input_ids':torch.LongTensor([[xi.getpixel((x,y))for y in r]for x in r]).flatten(),'attention_mask':torch.LongTensor([1]*n)}
+        return{'input_ids':torch.LongTensor([xi.getpixel((i//il,i%il))for i in range(n)]),'attention_mask':torch.LongTensor([1]*n)}
     _tokenizer.vocab_size=n*255
     return _tokenizer
 
@@ -160,7 +159,7 @@ def get_cifar10_config():
 
 def get_pathfinder32_config():
     config=ml_collections.ConfigDict()
-    config.batch_size=170000
+    config.batch_size=256
     config.tokenizer=make_gray_img_tokenizer()
     tots=200
     trns=int(tots*.85)
