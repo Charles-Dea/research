@@ -65,6 +65,7 @@ def get_model(config, model_config):
 
 def train(model, config, use_deepspeed):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    print(f"Using device: {device}")
     lr = config.learning_rate
     wd = config.weight_decay
     batch_size = config.batch_size
@@ -154,7 +155,7 @@ if __name__ == "__main__":
     parser.add_argument("--deepspeed", action="store_true",
                         help="use deepspeed optimization for better performance")
     args = parser.parse_args()
-    print(args.deepspeed)
+    print(f"Using deepspeed = {args.deepspeed}")
     task_name = args.task
     if args.deepspeed:
         import deepspeed
@@ -163,3 +164,4 @@ if __name__ == "__main__":
     config, model_config = task.config_getter()
     model = get_model(config, model_config)
     train(model, config, use_deepspeed=args.deepspeed)
+    torch.save(model.state_dict(), './pathfinder32.pth')
