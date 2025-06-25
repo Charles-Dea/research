@@ -109,7 +109,6 @@ class Pathfinder32Dataset:
                         self.data.append(Image.open(iidp+str(j)+'.png').convert('L'))
         self.tokenizer=config.tokenizer
         self.max_length=config.max_length
-        print(self.lbls)
     def __getitem__(self,i):
         return self.tokenizer(self.data[i],self.max_length),torch.LongTensor([self.lbls[i]])
     def __len__(self):
