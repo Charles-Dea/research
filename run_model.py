@@ -103,7 +103,6 @@ def train(model, config, use_deepspeed):
         if use_deepspeed:
             outputs = model_engine(**inputs)
             loss = F.cross_entropy(outputs, target)  # ✅ Updated
-            print('error fucking dodged')
             model_engine.backward(loss)
             model_engine.step()
         else:
