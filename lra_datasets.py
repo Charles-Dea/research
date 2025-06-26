@@ -110,7 +110,7 @@ class Pathfinder32Dataset:
             case'eval':
                 for i in range(mdf-trnss):
                     self.lbls+=map(lambda x:x.split()[3]=='1',open(mdp+str(i)+'.npy'))
-                    iidp=idp+'/sample_'
+                    iidp=idp+str(i)+'/sample_'
                     for j in range(1000):
                         self.data.append(Image.open(iidp+str(j)+'.png').convert('L'))
         self.tokenizer=config.tokenizer
