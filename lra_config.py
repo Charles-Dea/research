@@ -169,7 +169,7 @@ def get_pathfinder32_config():
     eps=2000
     config.total_train_samples=trns*eps
     config.weight_decay=0
-    config.learning_rate=.005
+    config.learning_rate=.0005
     config.warmup_steps=8000
     config.tied_weights=False
     config.max_length=1024
