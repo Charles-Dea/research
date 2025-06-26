@@ -159,7 +159,7 @@ def get_cifar10_config():
 
 def get_pathfinder32_config():
     config=ml_collections.ConfigDict()
-    config.batch_size=256
+    config.batch_size=16
     config.tokenizer=make_gray_img_tokenizer()
     tots=200
     trns=int(tots*.85)
