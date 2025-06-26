@@ -183,6 +183,6 @@ def get_pathfinder32_config():
     model_config.intermediate_dim=64
     model_config.hidden_dropout_prob=.3
     model_config.attention_probs_dropout_prob=.2
-    model_config.num_labels=10
+    model_config.num_labels=2
     model_config.vocab_size=config.tokenizer.vocab_size
     return config,model_config
