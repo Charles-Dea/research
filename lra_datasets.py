@@ -107,6 +107,12 @@ class Pathfinder32Dataset:
                     iidp=idp+str(i)+'/sample_'
                     for j in range(1000):
                         self.data.append(Image.open(iidp+str(j)+'.png').convert('L'))
+            case'eval':
+                for i in range(mdf-trnss):
+                    self.lbls+=map(lambda x:x.split()[3]=='1',open(mdp+str(i)+'.npy'))
+                    iidp=idp+'/sample_'
+                    for j in range(1000):
+                        self.data.append(Image.open(iidp+str(j)+'.png').convert('L'))
         self.tokenizer=config.tokenizer
         self.max_length=config.max_length
     def __getitem__(self,i):
