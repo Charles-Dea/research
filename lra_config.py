@@ -159,7 +159,7 @@ def get_cifar10_config():
 
 def get_pathfinder32_config():
     config=ml_collections.ConfigDict()
-    config.batch_size=16
+    config.batch_size=32
     config.tokenizer=make_gray_img_tokenizer()
     tots=200
     trns=int(tots*.85)
@@ -169,7 +169,7 @@ def get_pathfinder32_config():
     eps=2000
     config.total_train_samples=trns*eps
     config.weight_decay=0
-    config.learning_rate=.0005
+    config.learning_rate=.005
     config.warmup_steps=8000
     config.tied_weights=False
     config.max_length=1024
