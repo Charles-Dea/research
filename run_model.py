@@ -114,6 +114,7 @@ def train(model, config, use_deepspeed):
             outputs = model(**inputs)
             loss = F.cross_entropy(outputs, target)  # ✅ Updated
             loss.backward()
+            print('called loss.backward()')
             if (i+1) % gradient_accumulation_steps == 0:
                 optimizer.step()
                 scheduler.step()
