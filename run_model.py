@@ -15,6 +15,8 @@ from lra_config import (get_listops_config, get_cifar10_config, get_text_classif
 from lra_datasets import (ListOpsDataset, Cifar10Dataset, ImdbDataset, Pathfinder32Dataset)
 from argparse import ArgumentParser
 
+import struct
+
 
 # helper fns
 def force_weight_sharing(layers_list):
@@ -97,6 +99,7 @@ def train(model, config, use_deepspeed):
     avg_loss = None
     avg_acc = None
     pbar = tqdm(cycle(dataloader), total=max_train_steps)
+    out=open('out','wb')
     for i, (inputs, target) in enumerate(pbar):
         if i == max_train_steps:
             break
@@ -144,6 +147,7 @@ def train(model, config, use_deepspeed):
                 eval_running_acc += accuracy_score(outputs, target)  # ✅ Updated
                 eval_pbar.set_postfix_str(f"eval loss: {eval_running_loss/(j+1):.2f} "
                                           f"eval accuracy: {eval_running_acc/(j+1):.2f}")
+                out.write(struct.pack('f',loss))
             model.train()
 
 
