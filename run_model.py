@@ -147,7 +147,7 @@ def train(model, config, use_deepspeed):
                 eval_running_acc += accuracy_score(outputs, target)  # ✅ Updated
                 eval_pbar.set_postfix_str(f"eval loss: {eval_running_loss/(j+1):.2f} "
                                           f"eval accuracy: {eval_running_acc/(j+1):.2f}")
-                out.write(struct.pack('f',loss))
+                out.write(struct.pack('f',eval_running_acc))
             model.train()
 
 
