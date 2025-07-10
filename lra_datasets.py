@@ -156,7 +156,7 @@ class Pathfinder128Dataset:
         trnss=int(mdf*.85)
         self.data=[]
         self.lbls=[]
-        dp='lra_release/lra_release/pathfinder128curv_baseline/'
+        dp='lra_release/lra_release/pathfinder128/curv_baseline/'
         mdp=dp+'metadata/'
         idp=dp+'imgs/'
         match split:
@@ -186,7 +186,7 @@ class Pathfinder256Dataset:
         trnss=int(mdf*.85)
         self.data=[]
         self.lbls=[]
-        dp='lra_release/lra_release/pathfinder256curv_baseline/'
+        dp='lra_release/lra_release/pathfinder256/curv_baseline/'
         mdp=dp+'metadata/'
         idp=dp+'imgs/'
         match split:
