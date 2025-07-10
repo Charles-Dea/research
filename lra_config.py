@@ -186,3 +186,33 @@ def get_pathfinder32_config():
     model_config.num_labels=2
     model_config.vocab_size=config.tokenizer.vocab_size
     return config,model_config
+
+def get_pathfinder64_config():
+    config=ml_collections.ConfigDict()
+    config.batch_size=64
+    config.tokenizer=make_gray_img_tokenizer(il=64)
+    tots=200
+    trns=int(tots*.85)
+    tsts=tots-trns
+    config.eval_frequency=trns//config.batch_size
+    config.total_eval_samples=tsts
+    eps=2000
+    config.total_train_samples=trns*eps
+    config.weight_decay=0
+    config.learning_rate=.05
+    config.warmup_steps=8000
+    config.tied_weights=False
+    config.max_length=1024
+    config.steps_per_cycle=max(trns//config.batch_size,1)*eps
+    config.lr_scheduler=create_learning_rate_scheduler('constant * linear_warmup * cosine_decay',config)
+    model_config=ml_collections.ConfigDict()
+    model_config.max_position_embeddings=config.max_length
+    model_config.hidden_size=64
+    model_config.num_attention_heads=1
+    model_config.num_hidden_layers=1
+    model_config.intermediate_dim=64
+    model_config.hidden_dropout_prob=.3
+    model_config.attention_probs_dropout_prob=.2
+    model_config.num_labels=2
+    model_config.vocab_size=config.tokenizer.vocab_size
+    return config,model_config

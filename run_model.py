@@ -11,8 +11,8 @@ from tqdm import tqdm
 from torch.optim import Adam
 from torch.utils.data import DataLoader
 from ml_collections import ConfigDict
-from lra_config import (get_listops_config, get_cifar10_config, get_text_classification_config, get_pathfinder32_config)
-from lra_datasets import (ListOpsDataset, Cifar10Dataset, ImdbDataset, Pathfinder32Dataset)
+from lra_config import (get_listops_config, get_cifar10_config, get_text_classification_config, get_pathfinder32_config, get_pathfinder64_config)
+from lra_datasets import (ListOpsDataset, Cifar10Dataset, ImdbDataset, Pathfinder32Dataset, Pathfinder64Dataset)
 from argparse import ArgumentParser
 
 import struct
@@ -50,7 +50,8 @@ TASKS = {
     'listops': ConfigDict(dict(dataset_fn=ListOpsDataset, config_getter=get_listops_config)),
     'cifar10': ConfigDict(dict(dataset_fn=Cifar10Dataset, config_getter=get_cifar10_config)),
     'imdb': ConfigDict(dict(dataset_fn=ImdbDataset, config_getter=get_text_classification_config)),
-    'pathfinder32': ConfigDict(dict(dataset_fn=Pathfinder32Dataset,config_getter=get_pathfinder32_config))
+    'pathfinder32': ConfigDict(dict(dataset_fn=Pathfinder32Dataset,config_getter=get_pathfinder32_config)),
+    'pathfinder64': ConfigDict(dict(dataset_fn=Pathfinder64Dataset,config_getter=get_pathfinder64_config))
 }
 
 
@@ -167,4 +168,4 @@ if __name__ == "__main__":
     config, model_config = task.config_getter()
     model = get_model(config, model_config)
     train(model, config, use_deepspeed=args.deepspeed)
-    torch.save(model.state_dict(), './pathfinder32.pth')
+    torch.save(model.state_dict(), './model.pth')
