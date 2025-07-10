@@ -181,6 +181,7 @@ class Pathfinder128Dataset:
 
 
 class Pathfinder256Dataset:
+    """
     def __init__(self,config,split='train'):
         mdf=200
         trnss=int(mdf*.85)
@@ -204,7 +205,18 @@ class Pathfinder256Dataset:
                         self.data.append(Image.open(iidp+str(j)+'.png').convert('L'))
         self.tokenizer=config.tokenizer
         self.max_length=config.max_length
+    """
+    def __init__(self,config,split='train'):
+        self.lbls=[]
+        for i in range(200):
+            self.lbls+=map(lambda x:x.split()[3]=='1',open('lra_release/lra_release/pathfinder256/curv_baseline/metadata/'+str(i)+'.npy'))
+        self.tokenizer=config.tokenizer
+        self.max_length=config.max_length
+        self.split=split
     def __getitem__(self,i):
-        return self.tokenizer(self.data[i],self.max_length),torch.LongTensor([self.lbls[i]])
+        f=i%1000
+        img=Image.open('lra_release/lra_release/pathfinder256/'+str(f+200*(.85 if self.split=='eval'else 0)+'/sample_'+str(i-f*1000)+'.png'))
+        return self.tokenizer(img.convert('L')),torch.LongTensor([self.lbls[i]])
+        #return self.tokenizer(self.data[i],self.max_length),torch.LongTensor([self.lbls[i]])
     def __len__(self):
-        return len(self.data)
+        return len(self.lbls)
