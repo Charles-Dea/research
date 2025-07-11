@@ -215,7 +215,10 @@ class Pathfinder256Dataset:
         self.split=split
     def __getitem__(self,i):
         fn='lra_release/lra_release/pathfinder256/curv_baseline/imgs/'+str(i//1000+200*(.85 if self.split=='eval'else 0))+'/sample_'+str(i%1000)+'.png'
-        return self.tokenizer(Image.open(fn).convert('L'),self.max_length),torch.LongTensor([self.lbls[i]])
+        img=Image.open(fn)
+        ret=self.tokenizer(img.convert('L'),self.max_length),torch.LongTensor([self.lbls[i]])
+        img.close()
+        return ret
         #return self.tokenizer(self.data[i],self.max_length),torch.LongTensor([self.lbls[i]])
     def __len__(self):
         return len(self.lbls)
