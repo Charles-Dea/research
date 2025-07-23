@@ -161,7 +161,7 @@ def get_pathfinder32_config():
     config=ml_collections.ConfigDict()
     config.batch_size=64
     config.tokenizer=make_gray_img_tokenizer()
-    tots=200
+    tots=200000
     trns=int(tots*.85)
     tsts=tots-trns
     config.eval_frequency=trns//config.batch_size
