@@ -179,7 +179,7 @@ def get_pathfinder32_config():
     model_config.max_position_embeddings=config.max_length
     model_config.hidden_size=32
     model_config.num_attention_heads=1
-    model_config.num_hidden_layers=1
+    model_config.num_hidden_layers=3
     model_config.intermediate_dim=64
     model_config.hidden_dropout_prob=.3
     model_config.attention_probs_dropout_prob=.2
