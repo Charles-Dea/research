@@ -190,3 +190,50 @@ class CustomClassifier(nn.Module):
 
         logits = self.classifier(x_out)
         return logits
+
+class PathfinderCell(nn.Module):
+    def __init__(self,input_size,hidden_size):
+        super().__init__()
+        print('Using custom pathfinder model.')
+        self.input_size=input_size
+        self.hidden_size=hidden_size
+        self.m1=nn.Parameter(torch.randn(hidden_size, input_size))
+        self.m2=nn.Parameter(torch.randn(hidden_size, hidden_size))
+        self.m3=nn.Parameter(torch.randn(hidden_size, hidden_size))
+        self.m4=nn.Parameter(torch.randn(hidden_size, hidden_size))
+        self.a1=nn.Parameter(torch.zeros(hidden_size))
+        self.a2=nn.Parameter(torch.zeros(hidden_size))
+        self.a3=nn.Parameter(torch.zeros(hidden_size))
+        self.a4=nn.Parameter(torch.zeros(hidden_size))
+        nn.init.xavier_uniform_(self.m1)
+        nn.init.orthogonal_(self.m2)
+        nn.init.xavier_uniform_(self.m3)
+        nn.init.orthogonal_(self.m4)
+    def forward(self,x_input,hidden_state):
+        if hidden_state==None:hidden_state=torch.zeros(x_input.size(0),self.hidden_size,device=x_input.device)
+        p1=torch.matmul(x_input,self.m1.T)+self.a1
+        p2=torch.matmul(p1,self.m2.T)+self.a2
+        p3=torch.matmul(hidden_state,self.m3.T)+self.a3
+        p4=torch.matmul(p3,self.m4.T)+self.a4
+        return torch.relu(p2+p4)
+        """
+        h_in=torch.matmul(x_input,self.w_ih.T)+self.b_ih
+        h_hid=torch.matmul(hidden_state,self.w_hh.T)+self.b_hh
+        h_new=torch.relu(h_in+h_hid)
+        return h_new
+        """
+class PathfinderModel(nn.Module):
+    def __init__(self,vocab_size,hidden_size,num_classes,max_length):
+        super().__init__()
+        self.embedding=nn.Embedding(vocab_size,hidden_size)
+        self.rnn_cell=PathfinderCell(hidden_size,hidden_size)
+        self.classifier=nn.Linear(hidden_size,num_classes)
+    def forward(self,input_ids,attention_mask=None):
+        batch_size,seq_len=input_ids.size()
+        x=self.embedding(input_ids)
+        h=None
+        for t in range(seq_len):
+            x_t=x[:,t,:]
+            h=self.rnn_cell(x_t,h)
+        logits=self.classifier(h)
+        return logits
