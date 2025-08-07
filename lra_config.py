@@ -61,7 +61,7 @@ def make_gray_img_tokenizer(il=32):
     n=il*il
     def _tokenizer(xi,max_length):
         return{'input_ids':torch.LongTensor([[xi.getpixel((i//il,i%il))for i in range(n)]]),'attention_mask':torch.LongTensor([1]*n)}
-    _tokenizer.vocab_size=n*255
+    _tokenizer.vocab_size=256
     return _tokenizer
 
 
