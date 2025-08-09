@@ -5,7 +5,7 @@ import torch
 import torch.nn.functional as F
 from transformers import (AutoTokenizer, BertForSequenceClassification, BertConfig, Trainer, TrainingArguments)
 
-from my_models import (ManualRNNClassifier, ChaosUnitClassifier, CustomClassifier, ManualRNNReluClassifier, PathfinderModel)
+from my_models import (ManualRNNClassifier, ChaosUnitClassifier, CustomClassifier, ManualRNNReluClassifier, PathfinderModel, PathfinderS5)
 
 from tqdm import tqdm
 from torch.optim import Adam
@@ -59,12 +59,7 @@ TASKS = {
 
 # model loading
 def get_model(config, model_config):
-    model = PathfinderModel(
-        vocab_size=model_config.vocab_size,
-        hidden_size=model_config.hidden_size,
-        num_classes=model_config.num_labels,
-        max_length=model_config.max_position_embeddings
-    )
+    model = PathfinderS5()
     return model
 
 

@@ -166,7 +166,7 @@ def get_pathfinder32_config():
     tsts=tots-trns
     config.eval_frequency=trns//config.batch_size
     config.total_eval_samples=tsts
-    eps=2000
+    eps=10
     config.total_train_samples=trns*eps
     config.weight_decay=100
     config.learning_rate=1

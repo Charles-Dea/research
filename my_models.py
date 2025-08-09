@@ -1,5 +1,6 @@
 import torch
 from torch import nn
+from s5_pytorch import S5
 
 class ChaosUnit(nn.Module):
     def __init__(self, hidden_size, input_size):
@@ -237,3 +238,9 @@ class PathfinderModel(nn.Module):
             h=self.rnn_cell(x_t,h)
         logits=self.classifier(h)
         return logits
+
+class PathfinderS5(S5):
+    def __init__(self):
+        super(PathfinderS5,self).__init__(state_width=256,num_classes=2)
+    def forward(self,x):
+        return super().forward(x)
